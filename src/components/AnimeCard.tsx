@@ -1,10 +1,10 @@
 import Image from "next/image";
-
+import { motion } from "motion/react";
 export interface AnimeProp {
   id: string;
   name: string;
   image: {
-    original: string,
+    original: string;
   };
   kind: string;
   episodes: number;
@@ -16,16 +16,31 @@ interface Prop {
   anime: AnimeProp;
   index: number;
 }
+const variants = {
+  hidden: { opacity: 0, y: 30, x: 5 },
+  visible: { opacity: 1, y: 0, x: 0 },
+};
 
-function AnimeCard({ anime }: Prop) {
+function AnimeCard({ anime, index }: Prop) {
   return (
-    <div className="max-w-sm rounded relative w-full">
+    <motion.div
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      transition={{
+        delay: index * 0.02,
+        ease: "easeOut",
+        duration: 0.4,
+      }}
+      viewport={{ amount: 0 }}
+      className="max-w-sm rounded relative w-full"
+    >
       <div className="relative w-full h-[37vh]">
         <Image
           src={`https://shikimori.one${anime.image.original}`}
           alt={anime.name}
           fill
-          className="rounded-xl"
+          className="rounded-xl object-cover"
         />
       </div>
       <div className="py-4 flex flex-col gap-3">
@@ -42,7 +57,7 @@ function AnimeCard({ anime }: Prop) {
         <div className="flex gap-4 items-center">
           <div className="flex flex-row gap-2 items-center">
             <Image
-              src="./episodes.svg"
+              src="/episodes.svg"
               alt="episodes"
               width={20}
               height={20}
@@ -54,7 +69,7 @@ function AnimeCard({ anime }: Prop) {
           </div>
           <div className="flex flex-row gap-2 items-center">
             <Image
-              src="./star.svg"
+              src="/star.svg"
               alt="star"
               width={18}
               height={18}
@@ -64,7 +79,7 @@ function AnimeCard({ anime }: Prop) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

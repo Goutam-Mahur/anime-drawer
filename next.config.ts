@@ -5,8 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "shikimori.one",
-        pathname: "/**",
+        hostname: "*",
       },
     ],
   },
