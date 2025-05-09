@@ -7,7 +7,7 @@ export async function fetchAnime(page: number) {
     const response = await fetch(
       `https://shikimori.one/api/animes?page=${page}&limit=${MAX_LIMIT}&order=popularity`
     );
-    if (!response.ok) throw new Error("API error");
+    if (!response.ok) throw new Error("API error" + response.status + response);
     const data = await response.json();
     console.log(data);
     return data;
