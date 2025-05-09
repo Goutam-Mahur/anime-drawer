@@ -9,6 +9,7 @@ export async function fetchAnime(page: number) {
     );
     if (!response.ok) throw new Error("API error");
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.error("fetchAnime failed:", error);
