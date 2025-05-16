@@ -28,7 +28,7 @@ export const data = [
     name: "dragon_ball",
     image: {
       original:
-        "https://m.media-amazon.com/images/M/MV5BMGMyOThiMGUtYmFmZi00YWM0LWJiM2QtZGMwM2Q2ODE4MzhhXkEyXkFqcGdeQXVyMjc2Nzg5OTQ@._V1_FMjpg_UX1000_.jpg",
+        "https://shikimori.one/system/animes/original/813.jpg?1711948335",
     },
     kind: "TV",
     episodes: 153,
@@ -39,8 +39,7 @@ export const data = [
     id: "4",
     name: "jujutsu_kaisen",
     image: {
-      original:
-        "https://static.wikia.nocookie.net/jujutsu-kaisen/images/8/88/Anime_Key_Visual_2.png/revision/latest?cb=20201212034001",
+      original: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
     },
     kind: "TV",
     episodes: 24,
