@@ -5,9 +5,12 @@ const Hero = () => {
         <img
           src="./mylogo.svg"
           alt="logo"
-          width={101}
-          height={96}
-          className="object-contain"
+          className="
+            object-contain
+            w-16 h-16
+            sm:w-20 sm:h-20
+            md:w-24 md:h-24
+          "
         />
         <h1 className="sm:text-6xl text-5xl text-white lg:max-w-lg font-bold leading-[120%]">
           Explore The <span className="red-gradient">Diverse Realms</span> of

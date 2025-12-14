@@ -1,5 +1,3 @@
-import { motion } from "motion/react";
-
 export interface AnimeProp {
   id: string;
   name: string;
@@ -17,27 +15,19 @@ interface Prop {
   index: number;
 }
 
-const variants = {
-  hidden: { opacity: 0, y: 30, x: 5 },
-  visible: { opacity: 1, y: 0, x: 0 },
-};
-
 function AnimeCard({ anime, index }: Prop) {
   const src = anime.image.original.startsWith("http")
     ? anime.image.original
     : `https://shikimori.one${anime.image.original}`;
+
   return (
-    <motion.div
-      variants={variants}
-      initial="hidden"
-      animate="visible"
-      transition={{
-        delay: index * 0.2,
-        ease: "easeInOut",
-        duration: 0.3,
+    <div
+      className="max-w-sm w-full rounded-xl overflow-hidden bg-[#161921]
+                 opacity-0 translate-x-[5px] translate-y-[30px]
+                 animate-[fadeUp_0.3s_ease-in-out_forwards]"
+      style={{
+        animationDelay: `${index * 200}ms`,
       }}
-      viewport={{ amount: 0 }}
-      className="max-w-sm w-full rounded-xl overflow-hidden bg-[#161921]"
     >
       <div className="relative w-full h-[37vh]">
         <img
@@ -69,7 +59,7 @@ function AnimeCard({ anime, index }: Prop) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

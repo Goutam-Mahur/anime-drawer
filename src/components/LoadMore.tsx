@@ -1,55 +1,63 @@
-import { useInView } from "react-intersection-observer";
-import { useEffect, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import AnimeCard, { type AnimeProp } from "./AnimeCard";
 
-const MAX_LIMIT = 8;
+const MAX_LIMIT = 15;
 let page = 1;
 
 async function fetchAnime(page: number) {
   const response = await fetch(
     `https://shikimori.one/api/animes?page=${page}&limit=${MAX_LIMIT}&order=popularity`,
   );
-  const data = await response.json();
-  return data;
+  return response.json();
 }
 
 function LoadMore() {
-  const { ref, inView } = useInView();
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const [data, setData] = useState<AnimeProp[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [pageLength, setPageLength] = useState(0);
 
   useEffect(() => {
-    if (inView) {
-      setIsLoading(true);
-      const delay = 500;
-      setPageLength(data.length);
+    if (!observerRef.current) return;
 
-      const timeoutId = setTimeout(() => {
-        fetchAnime(page).then((res) => {
-          setData([...data, ...res]);
-          page++;
-        });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || isLoading) return;
 
-        setIsLoading(false);
-      }, delay);
+        setIsLoading(true);
+        setPageLength(data.length);
 
-      return () => clearTimeout(timeoutId);
-    }
-  }, [inView, data, isLoading]);
+        const delay = 500;
+        setTimeout(() => {
+          fetchAnime(page).then((res) => {
+            setData((prev) => [...prev, ...res]);
+            page++;
+            setIsLoading(false);
+          });
+        }, delay);
+      },
+      {
+        rootMargin: "200px",
+      },
+    );
+
+    observer.observe(observerRef.current);
+
+    return () => observer.disconnect();
+  }, [data, isLoading]);
 
   return (
     <>
       <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10 place-items-center">
-        {data.map((item: AnimeProp, index: number) => (
+        {data.map((item, index) => (
           <AnimeCard key={item.id} anime={item} index={index - pageLength} />
         ))}
       </section>
+
       <section className="flex justify-center items-center w-full">
-        <div ref={ref}>
-          {inView && isLoading && (
+        <div ref={observerRef}>
+          {isLoading && (
             <img
               src="./spinner.svg"
               alt="spinner"
